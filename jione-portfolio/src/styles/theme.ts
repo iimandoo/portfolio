@@ -33,8 +33,7 @@ export const themeToss = {
   },
 
   fonts: {
-    primary:
-      "'Pretendard Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+    primary: "'Pretendard Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
   },
 
   typography: {
@@ -77,8 +76,7 @@ export const themeKakao = {
   },
 
   fonts: {
-    primary:
-      "'Pretendard Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+    primary: "'Pretendard Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
   },
 
   typography: {
@@ -121,8 +119,7 @@ export const themeKurly = {
   },
 
   fonts: {
-    primary:
-      "'Pretendard Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+    primary: "'Pretendard Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
   },
 
   typography: {
@@ -142,4 +139,3 @@ export const themes = {
 
 export type Theme = typeof themeToss; // 모든 테마는 구조적으로 동일
 export type ThemeName = keyof typeof themes;
-

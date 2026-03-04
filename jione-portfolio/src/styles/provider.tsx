@@ -29,7 +29,9 @@ export function StyleProvider({ children }: { children: React.ReactNode }) {
   const [option, setOption] = useState<ThemeOption>(() => {
     if (typeof window === 'undefined') return 'toss';
     const saved = localStorage.getItem('themeOption');
-    return (saved && (saved === 'toss' || saved === 'kakao' || saved === 'kurly') ? saved : 'toss') as ThemeOption;
+    return (
+      saved && (saved === 'toss' || saved === 'kakao' || saved === 'kurly') ? saved : 'toss'
+    ) as ThemeOption;
   });
 
   useEffect(() => {
@@ -54,14 +56,10 @@ export function StyleProvider({ children }: { children: React.ReactNode }) {
     typeof window !== 'undefined' ? (
       content
     ) : (
-      <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>
-        {content}
-      </StyleSheetManager>
+      <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>{content}</StyleSheetManager>
     );
 
   return (
-    <ThemeContext.Provider value={{ option, setOption }}>
-      {providerTree}
-    </ThemeContext.Provider>
+    <ThemeContext.Provider value={{ option, setOption }}>{providerTree}</ThemeContext.Provider>
   );
 }
