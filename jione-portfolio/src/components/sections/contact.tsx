@@ -1,12 +1,12 @@
 'use client';
 
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import { resume } from '@/data/resume';
 
 const Section = styled.section`
-  padding: 5rem 1.5rem;
-  background-color: ${(props) => props.theme.colors.muted};
+  padding: 7rem 1.5rem;
+  background-color: ${(p) => p.theme.colors.secondary};
   text-align: center;
 `;
 
@@ -15,85 +15,104 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-const SectionLabel = styled.p`
-  font-size: 0.875rem;
+const SectionLabel = styled.span`
+  display: block;
+  font-size: 0.75rem;
   font-weight: 600;
-  color: ${(props) => props.theme.colors.primary};
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  color: ${(p) => p.theme.colors.primary};
   margin-bottom: 0.75rem;
 `;
 
 const SectionTitle = styled.h2`
-  font-size: 1.875rem;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
   font-weight: 700;
-  color: ${(props) => props.theme.colors.foreground};
   letter-spacing: -0.02em;
+  color: ${(p) => p.theme.colors.foreground};
   margin-bottom: 1rem;
 `;
 
-const SectionDesc = styled.p`
+const Description = styled.p`
   font-size: 1rem;
   line-height: 1.7;
-  color: ${(props) => props.theme.colors.mutedForeground};
+  color: ${(p) => p.theme.colors.mutedForeground};
+  margin-bottom: 3rem;
+`;
+
+const InfoList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  align-items: center;
   margin-bottom: 2.5rem;
 `;
 
-const ContactInfoList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  align-items: center;
-  margin-bottom: 2rem;
-`;
-
-const ContactInfoItem = styled.a`
+const InfoItem = styled.a`
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
   font-size: 1rem;
-  color: ${(props) => props.theme.colors.foreground};
-  text-decoration: none;
   font-weight: 500;
+  color: ${(p) => p.theme.colors.foreground};
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: ${(p) => p.theme.radius.lg};
+  transition: background-color 0.15s ease, color 0.15s ease;
 
   &:hover {
-    color: ${(props) => props.theme.colors.primary};
+    background-color: ${(p) => p.theme.colors.muted};
+    color: ${(p) => p.theme.colors.primary};
   }
 `;
 
-const ContactLabel = styled.span`
-  font-size: 0.875rem;
-  color: ${(props) => props.theme.colors.mutedForeground};
-  min-width: 3rem;
+const InfoLabel = styled.span`
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: ${(p) => p.theme.colors.mutedForeground};
+  min-width: 2.5rem;
   text-align: right;
 `;
 
-const GithubButton = styled.a`
+const Divider = styled.div`
+  width: 2rem;
+  height: 1px;
+  background-color: ${(p) => p.theme.colors.border};
+  margin: 0 auto 2rem;
+`;
+
+const GitHubButton = styled.a`
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background-color: ${(props) => props.theme.colors.secondary};
-  color: ${(props) => props.theme.colors.secondaryForeground};
-  padding: 0.625rem 1.25rem;
-  border-radius: ${(props) => props.theme.radius.md};
-  font-weight: 600;
   font-size: 0.9375rem;
+  font-weight: 600;
+  color: ${(p) => p.theme.colors.primaryForeground};
+  background-color: ${(p) => p.theme.colors.primary};
   text-decoration: none;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  padding: 0.75rem 1.75rem;
+  border-radius: ${(p) => p.theme.radius.lg};
+  transition: opacity 0.15s ease, transform 0.15s ease;
 
   &:hover {
-    background-color: ${(props) => props.theme.colors.border};
-    transform: translateY(-2px);
+    opacity: 0.88;
+    transform: translateY(-1px);
   }
 `;
 
-const Footer = styled.footer`
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid ${(props) => props.theme.colors.border};
-  font-size: 0.875rem;
-  color: ${(props) => props.theme.colors.mutedForeground};
-`;
+const containerVariants: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12 } },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+  },
+};
 
 export function ContactSection() {
   const { profile } = resume;
@@ -101,31 +120,49 @@ export function ContactSection() {
   return (
     <Section id="contact">
       <Container>
-      <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, ease: 'easeOut' }}>
-        <SectionLabel>Contact</SectionLabel>
-        <SectionTitle>함께 일해요</SectionTitle>
-        <SectionDesc>
-          새로운 기회나 협업 제안은 언제든지 환영합니다.
-          <br />
-          이메일이나 전화로 연락해 주세요.
-        </SectionDesc>
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+        >
+          <motion.div variants={itemVariants}>
+            <SectionLabel>Contact</SectionLabel>
+            <SectionTitle>연락하기</SectionTitle>
+            <Description>
+              새로운 기회나 협업에 대해 언제든지 연락 주세요.
+            </Description>
+          </motion.div>
 
-        <ContactInfoList>
-          <ContactInfoItem href={profile.social.email}>
-            <ContactLabel>이메일</ContactLabel>
-            {profile.email}
-          </ContactInfoItem>
-          <ContactInfoItem href={profile.social.phone}>
-            <ContactLabel>전화</ContactLabel>
-            {profile.phone}
-          </ContactInfoItem>
-        </ContactInfoList>
-        <GithubButton href={profile.social.github} target="_blank" rel="noopener noreferrer">
-          GitHub
-        </GithubButton>
+          <motion.div variants={itemVariants}>
+            <InfoList>
+              <InfoItem href={`mailto:${profile.email}`}>
+                <InfoLabel>이메일</InfoLabel>
+                <span className="material-symbols-outlined" style={{ fontSize: '1.1em' }}>
+                  mail
+                </span>
+                {profile.email}
+              </InfoItem>
+              <InfoItem href={`tel:${profile.phone.replace(/-/g, '')}`}>
+                <InfoLabel>전화</InfoLabel>
+                <span className="material-symbols-outlined" style={{ fontSize: '1.1em' }}>
+                  phone
+                </span>
+                {profile.phone}
+              </InfoItem>
+            </InfoList>
+          </motion.div>
 
-        <Footer>© {new Date().getFullYear()} {profile.name}. All rights reserved.</Footer>
-      </motion.div>
+          <motion.div variants={itemVariants}>
+            <Divider />
+            <GitHubButton href={profile.social.github} target="_blank" rel="noopener noreferrer">
+              <span className="material-symbols-outlined" style={{ fontSize: '1.1em' }}>
+                code
+              </span>
+              GitHub 방문하기
+            </GitHubButton>
+          </motion.div>
+        </motion.div>
       </Container>
     </Section>
   );

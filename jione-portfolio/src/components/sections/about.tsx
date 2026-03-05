@@ -6,7 +6,11 @@ import { resume } from '@/data/resume';
 
 const Section = styled.section`
   padding: 5rem 1.5rem;
-  background-color: ${(props) => props.theme.colors.muted};
+  background-color: ${(p) => p.theme.colors.background};
+
+  @media (min-width: 768px) {
+    padding: 7rem 2rem;
+  }
 `;
 
 const Container = styled.div`
@@ -14,142 +18,166 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-const SectionLabel = styled.p`
-  font-size: 0.875rem;
+const SectionLabel = styled.span`
+  display: block;
+  font-size: 0.75rem;
   font-weight: 600;
-  color: ${(props) => props.theme.colors.primary};
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  color: ${(p) => p.theme.colors.primary};
   margin-bottom: 0.75rem;
 `;
 
 const SectionTitle = styled.h2`
-  font-size: 1.875rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 700;
-  color: ${(props) => props.theme.colors.foreground};
   letter-spacing: -0.02em;
-  margin-bottom: 0.5rem;
-`;
-
-const SectionDesc = styled.p`
-  font-size: 1rem;
-  color: ${(props) => props.theme.colors.mutedForeground};
-  margin-bottom: 3rem;
+  color: ${(p) => p.theme.colors.foreground};
+  margin-bottom: 2.5rem;
 `;
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 2.5rem;
+  gap: 4rem;
 
-  @media (min-width: 768px) {
-    grid-template-columns: 1fr 1fr;
+  @media (min-width: 1024px) {
+    grid-template-columns: 3fr 2fr;
+    gap: 5rem;
   }
 `;
 
-/* ─── 경력 카드 ─────────────────────────────────────────── */
+/* ── 경력 타임라인 ─────────────────────────────────── */
 
-const CareerList = styled.div`
+const TimelineList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 `;
 
-const CareerCard = styled.div<{ $isCurrent?: boolean }>`
-  background-color: ${(props) => props.theme.colors.card};
-  border-radius: ${(props) => props.theme.radius.lg};
-  padding: 1.25rem 1.5rem;
-  box-shadow: ${(props) => props.theme.shadows.sm};
-  border-left: 3px solid
-    ${(props) =>
-      props.$isCurrent ? props.theme.colors.primary : props.theme.colors.border};
-  transition: box-shadow 0.2s ease;
-
-  &:hover {
-    box-shadow: ${(props) => props.theme.shadows.md};
-  }
-`;
-
-const CareerCompany = styled.p`
-  font-size: 1rem;
-  font-weight: 700;
-  color: ${(props) => props.theme.colors.foreground};
-`;
-
-const CareerMeta = styled.p`
-  font-size: 0.875rem;
-  color: ${(props) => props.theme.colors.mutedForeground};
-  margin-top: 0.125rem;
-  margin-bottom: 0.5rem;
-`;
-
-const TaskList = styled.ul`
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-`;
-
-const TaskItem = styled.li`
-  font-size: 0.875rem;
-  color: ${(props) => props.theme.colors.secondaryForeground};
-  padding-left: 1rem;
+const TimelineItem = styled.div`
   position: relative;
+  padding-left: 1.75rem;
+  padding-bottom: 2.5rem;
+
+  &:last-child {
+    padding-bottom: 0;
+  }
 
   &::before {
-    content: '·';
+    content: '';
     position: absolute;
-    left: 0.25rem;
-    color: ${(props) => props.theme.colors.mutedForeground};
+    left: 0;
+    top: 7px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: ${(p) => p.theme.colors.primary};
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 3.5px;
+    top: 15px;
+    bottom: 0;
+    width: 1px;
+    background-color: ${(p) => p.theme.colors.border};
+  }
+
+  &:last-child::after {
+    display: none;
   }
 `;
 
-/* ─── 기술 스택 ─────────────────────────────────────────── */
+const TimelineCompany = styled.div`
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: ${(p) => p.theme.colors.foreground};
+`;
 
-const SkillCategories = styled.div`
+const TimelineMeta = styled.div`
+  display: flex;
+  gap: 0.6rem;
+  align-items: baseline;
+  flex-wrap: wrap;
+  margin-top: 0.2rem;
+`;
+
+const TimelinePosition = styled.span`
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: ${(p) => p.theme.colors.primary};
+`;
+
+const TimelinePeriod = styled.span`
+  font-size: 0.8rem;
+  color: ${(p) => p.theme.colors.mutedForeground};
+`;
+
+const TimelineDesc = styled.p`
+  font-size: 0.875rem;
+  color: ${(p) => p.theme.colors.secondaryForeground};
+  margin-top: 0.4rem;
+  line-height: 1.6;
+`;
+
+/* ── 기술 스택 ──────────────────────────────────────── */
+
+const SkillsStack = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.75rem;
 `;
 
-const SkillCategoryCard = styled.div`
-  background-color: ${(props) => props.theme.colors.card};
-  border-radius: ${(props) => props.theme.radius.lg};
-  padding: 1.25rem 1.5rem;
-  box-shadow: ${(props) => props.theme.shadows.sm};
+const CategoryName = styled.h4`
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: ${(p) => p.theme.colors.mutedForeground};
+  margin-bottom: 0.625rem;
 `;
 
-const CategoryName = styled.p`
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: ${(props) => props.theme.colors.foreground};
-  margin-bottom: 0.75rem;
-`;
-
-const TagList = styled.div`
+const SkillTags = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.4rem;
 `;
 
-const Tag = styled.span`
-  background-color: ${(props) => props.theme.colors.secondary};
-  color: ${(props) => props.theme.colors.secondaryForeground};
-  font-size: 0.8125rem;
+const SkillTag = styled.span<{ $level: string }>`
+  display: inline-block;
+  padding: 0.25rem 0.65rem;
+  border-radius: ${(p) => p.theme.radius.xl};
+  font-size: 0.8rem;
   font-weight: 500;
-  padding: 0.25rem 0.625rem;
-  border-radius: ${(props) => props.theme.radius.sm};
+  background-color: ${(p) =>
+    p.$level === 'expert'
+      ? p.theme.colors.primary
+      : p.$level === 'advanced'
+        ? p.theme.colors.secondary
+        : p.theme.colors.muted};
+  color: ${(p) =>
+    p.$level === 'expert' ? p.theme.colors.primaryForeground : p.theme.colors.secondaryForeground};
+  transition: transform 0.15s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
 `;
 
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: (i: number = 0) => ({
+/* ── 애니메이션 ─────────────────────────────────────── */
+
+const fadeUpVariants: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.08, duration: 0.5, ease: 'easeOut' },
+    transition: { duration: 0.55, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] },
   }),
 };
+
+const formatPeriod = (date: string) => (date === 'present' ? '현재' : date.replace('-', '.'));
+
+/* ── 컴포넌트 ──────────────────────────────────────── */
 
 export function AboutSection() {
   const { career, skills } = resume;
@@ -157,55 +185,63 @@ export function AboutSection() {
   return (
     <Section id="about">
       <Container>
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
-          <SectionLabel>About</SectionLabel>
-          <SectionTitle>경력 & 기술</SectionTitle>
-          <SectionDesc>{career.summary}</SectionDesc>
-        </motion.div>
-
         <Grid>
-          {/* 경력 타임라인 */}
+          {/* 경력 */}
           <div>
-            <CategoryName style={{ fontSize: '1rem', marginBottom: '1rem' }}>
-              경력 타임라인
-            </CategoryName>
-            <CareerList>
+            <SectionLabel>Career</SectionLabel>
+            <SectionTitle>경력</SectionTitle>
+            <TimelineList>
               {career.experiences.map((exp, i) => (
-                <motion.div key={exp.id} custom={i} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
-                <CareerCard $isCurrent={'isCurrent' in exp && exp.isCurrent}>
-                  <CareerCompany>{exp.company}</CareerCompany>
-                  <CareerMeta>
-                    {exp.position} · {exp.period.start} ~{' '}
-                    {exp.period.end === 'present' ? '현재' : exp.period.end}
-                  </CareerMeta>
-                  <TaskList>
-                    {exp.tasks.map((task, i) => (
-                      <TaskItem key={i}>{task}</TaskItem>
-                    ))}
-                  </TaskList>
-                </CareerCard>
+                <motion.div
+                  key={exp.id}
+                  custom={i}
+                  variants={fadeUpVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '-60px' }}
+                >
+                  <TimelineItem>
+                    <TimelineCompany>{exp.company}</TimelineCompany>
+                    <TimelineMeta>
+                      <TimelinePosition>{exp.position}</TimelinePosition>
+                      <TimelinePeriod>
+                        {formatPeriod(exp.period.start)} – {formatPeriod(exp.period.end)}
+                      </TimelinePeriod>
+                    </TimelineMeta>
+                    <TimelineDesc>{exp.description}</TimelineDesc>
+                  </TimelineItem>
                 </motion.div>
               ))}
-            </CareerList>
+            </TimelineList>
           </div>
 
-          {/* 기술 스택 */}
+          {/* 기술 */}
           <div>
-            <CategoryName style={{ fontSize: '1rem', marginBottom: '1rem' }}>
-              기술 스택
-            </CategoryName>
-            <SkillCategories>
-              {skills.categories.map((cat) => (
-                <SkillCategoryCard key={cat.name}>
-                  <CategoryName>{cat.name}</CategoryName>
-                  <TagList>
-                    {cat.items.map((item) => (
-                      <Tag key={item}>{item}</Tag>
-                    ))}
-                  </TagList>
-                </SkillCategoryCard>
+            <SectionLabel>Skills</SectionLabel>
+            <SectionTitle>기술 스택</SectionTitle>
+            <SkillsStack>
+              {skills.categories.map((cat, ci) => (
+                <motion.div
+                  key={cat.name}
+                  custom={ci}
+                  variants={fadeUpVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '-60px' }}
+                >
+                  <div>
+                    <CategoryName>{cat.name}</CategoryName>
+                    <SkillTags>
+                      {cat.skills.map((skill) => (
+                        <SkillTag key={skill.name} $level={skill.level}>
+                          {skill.name}
+                        </SkillTag>
+                      ))}
+                    </SkillTags>
+                  </div>
+                </motion.div>
               ))}
-            </SkillCategories>
+            </SkillsStack>
           </div>
         </Grid>
       </Container>

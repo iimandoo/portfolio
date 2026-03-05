@@ -1,11 +1,9 @@
 import type { Metadata } from 'next';
 import '@/styles/globals.css';
-import { StyleProvider } from '@/styles/provider';
-import { resume } from '@/data/resume';
 
 export const metadata: Metadata = {
-  title: `${resume.profile.name} 포트폴리오`,
-  description: resume.meta.siteDescription,
+  title: '포트폴리오',
+  description: 'Full-Stack Engineer 포트폴리오',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -21,9 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body>
-        <StyleProvider>{children}</StyleProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

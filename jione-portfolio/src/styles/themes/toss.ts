@@ -1,4 +1,4 @@
-export const theme = {
+export const tossTheme = {
   colors: {
     background: '#FFFFFF',
     foreground: '#1B1C1F',
@@ -34,26 +34,11 @@ export const theme = {
   },
 
   typography: {
-    h1: {
-      fontSize: '2.25rem',
-      fontWeight: 700,
-      letterSpacing: '-0.02em',
-    },
-    h2: {
-      fontSize: '1.875rem',
-      fontWeight: 700,
-      letterSpacing: '-0.02em',
-    },
-    body: {
-      fontSize: '1rem',
-      fontWeight: 400,
-      lineHeight: 1.5,
-    },
-    small: {
-      fontSize: '0.875rem',
-      fontWeight: 400,
-    },
+    h1: { fontSize: '2.25rem', fontWeight: 700, letterSpacing: '-0.02em' },
+    h2: { fontSize: '1.875rem', fontWeight: 700, letterSpacing: '-0.02em' },
+    body: { fontSize: '1rem', fontWeight: 400, lineHeight: 1.5 },
+    small: { fontSize: '0.875rem', fontWeight: 400 },
   },
-};
+} as const;
 
-export type Theme = typeof theme;
+export type TossTheme = typeof tossTheme;
