@@ -1,12 +1,12 @@
-"use server";
+'use server';
 
-import { cookies } from "next/headers";
-import { memoryDB } from "@/lib/memory-db";
+import { cookies } from 'next/headers';
+import { memoryDB } from '@/lib/memory-db';
 
 export async function logPageView() {
   try {
     const cookieStore = await cookies();
-    const pageViewData = cookieStore.get("_pageViewData")?.value;
+    const pageViewData = cookieStore.get('_pageViewData')?.value;
     if (!pageViewData) return;
 
     const data = JSON.parse(pageViewData);
@@ -18,6 +18,6 @@ export async function logPageView() {
       ipAddress: data.ipAddress,
     });
   } catch (error) {
-    console.error("Failed to log page view:", error);
+    console.error('Failed to log page view:', error);
   }
 }

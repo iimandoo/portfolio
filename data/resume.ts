@@ -203,13 +203,7 @@ export const skills: Skill[] = [
   },
   {
     category: "AI / 자동화",
-    items: [
-      "Claude Code",
-      "Gemini",
-      "GCP Vertex AI",
-      "Python",
-      "AI 워크플로우",
-    ],
+    items: ["Claude Code", "Gemini", "GCP Vertex AI", "AI 워크플로우"],
   },
   {
     category: "Infrastructure",

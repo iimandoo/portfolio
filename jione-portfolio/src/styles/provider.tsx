@@ -3,26 +3,16 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useServerInsertedHTML } from 'next/navigation';
 import { ServerStyleSheet, StyleSheetManager, ThemeProvider } from 'styled-components';
-import { themes, ThemeName } from './theme';
-
-// Theme 옵션 타입 (토스/카카오/컬리)
-type ThemeOption = ThemeName;
-
-interface ThemeContextType {
-  option: ThemeOption;
-  setOption: (opt: ThemeOption) => void;
-}
-
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
-
-export function useTheme() {
-  const ctx = useContext(ThemeContext);
-  if (!ctx) throw new Error('useTheme must be used within ThemeContext');
-  return ctx;
-}
+import type { DefaultTheme } from 'styled-components';
 
 // SSR 스타일 주입 (FOUC 방지) — Next.js App Router + styled-components v6 필수
-export function StyleProvider({ children }: { children: React.ReactNode }) {
+export function StyleProvider({
+  children,
+  theme,
+}: {
+  children: React.ReactNode;
+  theme: DefaultTheme;
+}) {
   const [styledComponentsStyleSheet] = useState(() => new ServerStyleSheet());
 
   // 선택된 테마를 로컬 스토리지에 저장해서 새로고침 후에도 유지
