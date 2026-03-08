@@ -118,7 +118,7 @@ export const resume = {
     cases: [
       {
         id: 'ai-mata',
-        title: 'AI마타수학',
+        title: 'AI마타수학 2026년 리뉴얼',
         company: '(주)마타에듀',
         description:
           'AI 진단 기반 수학 학습 플랫폼. 교사는 수업을 설계하고, 학생은 개인 맞춤 학습으로 실력을 키웁니다. 초등·중고등 전 과정을 커버하며 EBS 초등온에 납품된 서비스입니다.',
@@ -134,27 +134,93 @@ export const resume = {
           '/projects/AI마타수학2026_학생_AI첨삭.png',
         ],
       },
+
+      {
+        id: 'ai-mata-highschool',
+        title: 'AI마타수학 (중고등)',
+        company: '(주)마타에듀',
+        description:
+          '중학교·고등학교 대상 AI 수학 학습 플랫폼. 교사는 커리큘럼·문제풀이·실시간 현황보드로 수업을 운영하고, 보고서 기능으로 학생 성취를 분석합니다.',
+        execution: 'React, TypeScript, Redux, AWS CodeCommit',
+        tools: 'Notion, Figma',
+        year: '2023 ~ 현재',
+        images: [
+          '/projects/AI마타수학_중고등_선생님_홈.png',
+          '/projects/AI마타수학_중고등_선생님_커리큘럼.png',
+          '/projects/AI마타수학_중고등_선생님_실시간현황보드.png',
+          '/projects/AI마타수학_중고등_선생님_문제풀이.png',
+          '/projects/AI마타수학_중고등_선생님_보고서.png',
+          '/projects/AI마타수학_중고등_학생_홈.png',
+        ],
+      },
+      {
+        id: 'ai-mata-elementary',
+        title: 'AI마타수학 (초등)',
+        company: '(주)마타에듀',
+        description:
+          '초등학교 대상 AI 수학 학습 플랫폼. 그림 로그인으로 어린 학생도 쉽게 접근하며, 교사는 커리큘럼과 문제풀이를 직접 구성합니다. EBS 초등온에 납품된 서비스입니다.',
+        execution: 'React, TypeScript, Redux, AWS CodeCommit',
+        tools: 'Notion, Figma',
+        year: '2023 ~ 현재',
+        images: [
+          '/projects/AI마타수학_초등_선생님_홈.png',
+          '/projects/AI마타수학_초등_선생님_커리큘럼.png',
+          '/projects/AI마타수학_초등_선생님_문제풀이.png',
+          '/projects/AI마타수학_초등_학생_홈.png',
+          '/projects/AI마타수학_초등_학생_그림로그인.png',
+        ],
+      },
       {
         id: 'paddly',
         title: '패들리',
         company: '(주)마타에듀',
         description:
-          '수학 모둠활동 서비스. 교사가 수업 활동을 직접 만들고 공유하는 학급 활동 플랫폼으로, 카드 뒤집기·퀴즈 등 다양한 인터랙티브 활동을 지원합니다.',
+          '수학 모둠활동 서비스. 교사가 수업 활동을 직접 만들고 공유하는 학급 활동 플랫폼으로, 카드 뒤집기·퀴즈·마법대전·퍼즐맞추기 등 다양한 인터랙티브 활동을 지원합니다.',
         execution: 'Figma, Make(업무자동화)',
         tools: 'Notion',
         year: '2025',
-        images: ['/projects/패들리.png'],
+        images: [
+          '/projects/패들리_홈.png',
+          '/projects/패들리_카드뒤집기1.png',
+          '/projects/패들리_카드뒤집기2.png',
+          '/projects/패들리_마법대전1.png',
+          '/projects/패들리_마법대전2.png',
+          '/projects/패들리_퍼즐맞추기1.png',
+          '/projects/패들리_퍼즐맞추기2.png',
+        ],
       },
       {
         id: 'cool-hanja',
         title: '쿨한자',
-        company: '',
+        company: '개인 사이드 프로젝트',
         description:
-          '한자 학습 서비스. Next.js로 Front/Back-end를 직접 구축하고 Vercel에 배포. AI를 활용해 빠르게 런칭한 EdTech MVP 서비스입니다.',
+          '한자 학습 서비스. 학년·급수 설정부터 한자 카드·뜻음 학습까지 지원. Next.js 풀스택으로 직접 구축하고 Vercel에 배포한 EdTech MVP 서비스입니다.',
         execution: 'Next.js, TypeScript, Vercel',
         tools: 'AI (Claude, Gemini)',
         year: '2025',
-        images: ['/projects/쿨한자.png'],
+        images: [
+          '/projects/쿨한자_한자카드.png',
+          '/projects/쿨한자_뜻음.png',
+          '/projects/쿨한자_학년설정.png',
+          '/projects/쿨한자_급수설정.png',
+          '/projects/쿨한자_한자추가.png',
+        ],
+      },
+      {
+        id: 'modofit',
+        title: '모도핏',
+        company: '개인 사이드 프로젝트',
+        description:
+          '운동 기록·인바디 관리 서비스. 로그인 후 홈 대시보드에서 캘린더 기반 운동 이력을 확인하고, 인바디 측정 데이터를 관리할 수 있는 헬스케어 플랫폼입니다.',
+        execution: 'Next.js, TypeScript, Vercel',
+        tools: 'AI (Claude, Gemini)',
+        year: '2025',
+        images: [
+          '/projects/모도핏_홈.png',
+          '/projects/모도핏_홈_로그인후.png',
+          '/projects/모도핏_홈_캘린더.png',
+          '/projects/모도핏_인바디.png',
+        ],
       },
       {
         id: 'baemin-sangwoe',

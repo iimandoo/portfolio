@@ -43,7 +43,9 @@
       "Bash(echo \"=== $f ===\")",
       "Read(//c/work/portfolio-agent/jione-portfolio/src/components/block/**)",
       "Bash(for f in gnb.tsx hero.tsx card-slider.tsx career.tsx contact.tsx)",
-      "Read(//c/work/portfolio-agent/jione-portfolio/src/components/corporate/**)"
+      "Read(//c/work/portfolio-agent/jione-portfolio/src/components/corporate/**)",
+      "Bash(cp \"c:/work/portfolio-agent/resource/AI마타수학_중고등_\"*.png \"c:/work/portfolio-agent/jione-portfolio/public/projects/\")",
+      "Bash(cp \"c:/work/portfolio-agent/resource/AI마타수학_초등_\"*.png \"c:/work/portfolio-agent/jione-portfolio/public/projects/\")"
     ]
   }
 }
