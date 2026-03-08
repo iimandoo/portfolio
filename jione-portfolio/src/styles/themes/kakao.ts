@@ -12,7 +12,6 @@ export const kakaoTheme = {
     card: '#FFFFFF',
     cardForeground: '#1A1A1A',
     destructive: '#F03E3E',
-    // Kakao 전용 추가 색상
     nav: '#1A1A1A',
     navForeground: '#FFFFFF',
     badge: '#FEE500',
@@ -34,8 +33,7 @@ export const kakaoTheme = {
   },
 
   fonts: {
-    primary:
-      "'Pretendard Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+    primary: "'Pretendard Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
   },
 
   typography: {

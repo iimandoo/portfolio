@@ -19,7 +19,31 @@
       "Bash(printf \"n\\\\n\")",
       "Bash(npm uninstall babel-plugin-styled-components)",
       "WebFetch(domain:www.navercorp.com)",
-      "WebFetch(domain:newtype.design)"
+      "WebFetch(domain:newtype.design)",
+      "Bash(mkdir -p components/block components/corporate app/block/toss app/block/minimal app/block/dark app/block/kakao)",
+      "Bash(cp components/sections/hero.tsx components/block/hero.tsx)",
+      "Bash(cp components/sections/about.tsx components/block/about.tsx)",
+      "Bash(cp components/sections/Project.tsx components/block/projects.tsx)",
+      "Bash(cp components/sections/contact.tsx components/block/contact.tsx)",
+      "Bash(npm --prefix \"c:/work/portfolio-agent/jione-portfolio\" run build)",
+      "Bash(for style in block corporate)",
+      "Bash(do for tone in toss minimal dark kakao)",
+      "Bash(do mkdir -p \"c:/work/portfolio-agent/jione-portfolio/src/app/$style/$tone\")",
+      "Bash(done)",
+      "Bash(mkdir -p data)",
+      "Bash(mkdir -p src/styles/themes)",
+      "Bash(mkdir -p src/lib src/actions)",
+      "Bash(mkdir -p public/images)",
+      "Bash(mkdir -p src/components/block)",
+      "Bash(mkdir -p src/components/corporate)",
+      "Bash(mkdir -p src/app/block/toss src/app/block/minimal src/app/block/dark src/app/block/kakao)",
+      "Bash(mkdir -p src/app/corporate/toss src/app/corporate/minimal src/app/corporate/dark src/app/corporate/kakao)",
+      "Bash(for f in about.tsx contact.tsx projects.tsx)",
+      "Bash(do)",
+      "Bash(echo \"=== $f ===\")",
+      "Read(//c/work/portfolio-agent/jione-portfolio/src/components/block/**)",
+      "Bash(for f in gnb.tsx hero.tsx card-slider.tsx career.tsx contact.tsx)",
+      "Read(//c/work/portfolio-agent/jione-portfolio/src/components/corporate/**)"
     ]
   }
 }
