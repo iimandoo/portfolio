@@ -8,7 +8,6 @@ export async function logPageView() {
     const cookieStore = await cookies();
     const pageViewData = cookieStore.get("_pageViewData")?.value;
     if (!pageViewData) return;
-
     const data = JSON.parse(pageViewData);
     memoryDB.addLog({
       url: data.url,

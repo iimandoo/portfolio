@@ -18,22 +18,18 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #ffffff;
-  color: #1b1c1f;
 }
 
 a {
   text-decoration: none;
   color: inherit;
 }
-
 button {
   border: none;
   cursor: pointer;
   background: none;
   font-family: inherit;
 }
-
 input,
 textarea {
   font-family: inherit;
