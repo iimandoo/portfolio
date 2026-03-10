@@ -2,6 +2,9 @@
 .env.local
 .env*.local
 
+# 빌드 산출물 — 커맨드로 재생성 가능
+jione-portfolio/
+
 # OS
 .DS_Store
 Thumbs.db
