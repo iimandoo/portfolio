@@ -68,7 +68,7 @@ export interface HistoryStats {
 `src/lib/pdf/history-store.ts` 생성:
 
 ```typescript
-import type { ConversionHistory, ConversionReview, HistoryStats } from '@/types/history';
+import type { ConversionHistory, ConversionReview, HistoryStats, ReviewScores } from '@/types/history';
 
 // in-memory store (서버 재시작 시 초기화)
 // 프로덕션 전환 시 DB로 교체
@@ -178,26 +178,35 @@ function avgOfScores(s: ReviewScores): number {
 ```typescript
 import { NextRequest, NextResponse } from 'next/server';
 import { historyStore } from '@/lib/pdf/history-store';
+import { requireSession } from '@/lib/auth/require-session';
 import type { ConversionHistory } from '@/types/history';
 
-// 히스토리 목록 조회
+// 히스토리 목록 조회 (본인 것만)
 export async function GET() {
-  const list = historyStore.getAll().map((h) => ({
-    id:             h.id,
-    timestamp:      h.timestamp,
-    fileName:       h.fileName,
-    status:         h.status,
-    enrichedCount:  h.enrichedPaths.length,
-    hasReview:      !!h.review,
-    reviewScores:   h.review?.scores ?? null,
-  }));
+  const { session, response } = await requireSession();
+  if (response) return response;
+
+  const list = historyStore.getAll()
+    .filter((h) => h.userId === session!.user.id)
+    .map((h) => ({
+      id:             h.id,
+      timestamp:      h.timestamp,
+      fileName:       h.fileName,
+      status:         h.status,
+      enrichedCount:  h.enrichedPaths.length,
+      hasReview:      !!h.review,
+      reviewScores:   h.review?.scores ?? null,
+    }));
   return NextResponse.json({ list });
 }
 
 // 변환 결과 저장
 export async function POST(req: NextRequest) {
+  const { session, response } = await requireSession();
+  if (response) return response;
+
   const body = await req.json() as Omit<ConversionHistory, 'id' | 'timestamp'>;
-  const record = historyStore.add(body);
+  const record = historyStore.add({ ...body, userId: session!.user.id });
   return NextResponse.json({ success: true, id: record.id });
 }
 ```
@@ -207,11 +216,17 @@ export async function POST(req: NextRequest) {
 ```typescript
 import { NextRequest, NextResponse } from 'next/server';
 import { historyStore } from '@/lib/pdf/history-store';
+import { requireSession } from '@/lib/auth/require-session';
 
-// 상세 조회
-export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
-  const entry = historyStore.getById(params.id);
+// 상세 조회 (본인 소유 확인)
+export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { session, response } = await requireSession();
+  if (response) return response;
+
+  const { id } = await params;
+  const entry = historyStore.getById(id);
   if (!entry) return NextResponse.json({ error: '히스토리를 찾을 수 없습니다' }, { status: 404 });
+  if (entry.userId !== session!.user.id) return NextResponse.json({ error: '권한이 없습니다' }, { status: 403 });
   return NextResponse.json(entry);
 }
 ```
@@ -221,9 +236,14 @@ export async function GET(_: NextRequest, { params }: { params: { id: string } }
 ```typescript
 import { NextRequest, NextResponse } from 'next/server';
 import { historyStore } from '@/lib/pdf/history-store';
+import { requireSession } from '@/lib/auth/require-session';
 import type { ConversionReview } from '@/types/history';
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { session, response } = await requireSession();
+  if (response) return response;
+
+  const { id } = await params;
   const body = await req.json() as Omit<ConversionReview, 'timestamp'>;
 
   // 점수 유효성 검사 (1~5)
@@ -232,10 +252,13 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     return NextResponse.json({ error: '점수는 1~5 범위여야 합니다' }, { status: 400 });
   }
 
-  const updated = historyStore.addReview(params.id, body);
-  if (!updated) return NextResponse.json({ error: '히스토리를 찾을 수 없습니다' }, { status: 404 });
+  // 본인 소유 확인
+  const entry = historyStore.getById(id);
+  if (!entry) return NextResponse.json({ error: '히스토리를 찾을 수 없습니다' }, { status: 404 });
+  if (entry.userId !== session!.user.id) return NextResponse.json({ error: '권한이 없습니다' }, { status: 403 });
 
-  return NextResponse.json({ success: true, review: updated.review });
+  const updated = historyStore.addReview(id, body);
+  return NextResponse.json({ success: true, review: updated!.review });
 }
 ```
 
@@ -244,8 +267,12 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
 ```typescript
 import { NextResponse } from 'next/server';
 import { historyStore } from '@/lib/pdf/history-store';
+import { requireSession } from '@/lib/auth/require-session';
 
 export async function GET() {
+  const { response } = await requireSession();
+  if (response) return response;
+
   return NextResponse.json(historyStore.getStats());
 }
 ```

@@ -236,6 +236,21 @@ description만 출력하세요.
 
 역할만 출력하세요 (10자 이내, 짧게).
 `.trim(),
+
+    'skills.categories.skills.level': `
+아래 기술의 숙련도를 판단하세요.
+카테고리와 기술명을 보고 expert / advanced / intermediate 중 하나만 출력하세요.
+
+카테고리: ${ctx.category}
+기술명: ${ctx.skillName}
+
+판단 기준:
+- expert: 해당 분야 핵심 기술이고 5년 이상 실무 수준
+- advanced: 2~4년 수준이거나 프로젝트에서 주도적으로 사용
+- intermediate: 기본 활용 가능 수준
+
+레벨만 출력하세요 (expert/advanced/intermediate 중 하나).
+`.trim(),
   };
 
   // path의 인덱스 제거하여 프롬프트 키 매핑
@@ -326,9 +341,13 @@ function applyValueToPath(obj: Record<string, unknown>, path: string, value: str
 ```typescript
 import { NextRequest, NextResponse } from 'next/server';
 import { enrichResumeData } from '@/lib/ai/enricher';
+import { requireSession } from '@/lib/auth/require-session';
 import type { ResumeDto } from '@/types/resume-dto';
 
 export async function POST(req: NextRequest) {
+  const { session, response } = await requireSession();
+  if (response) return response;
+
   try {
     const body = await req.json();
     const { data, fields, historyId } = body as {
@@ -347,7 +366,8 @@ export async function POST(req: NextRequest) {
     if (historyId) {
       const { historyStore } = await import('@/lib/pdf/history-store');
       const entry = historyStore.getById(historyId);
-      if (entry) {
+      // 본인 소유 히스토리만 갱신 (userId 검증)
+      if (entry && entry.userId === session!.user.id) {
         entry.enrichedDto   = result.data;
         entry.enrichedPaths = result.enrichedPaths;
         entry.status        = result.errors.length > 0 ? 'partial' : 'success';

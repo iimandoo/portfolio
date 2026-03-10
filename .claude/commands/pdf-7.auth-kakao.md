@@ -23,11 +23,11 @@ description: 카카오 로그인 인증 — OAuth 2.0, 첫 로그인 시 자동 
 
 ```
 앱 설정 → 플랫폼
-  Web 사이트 도메인: http://localhost:3000
+  Web 사이트 도메인: http://localhost:3001
 
 앱 설정 → 카카오 로그인
   활성화 상태: ON
-  Redirect URI: http://localhost:3000/api/auth/callback/kakao
+  Redirect URI: http://localhost:3001/api/auth/callback/kakao
 
 제품 설정 → 카카오 로그인 → 동의항목
   프로필 정보 (닉네임/프로필 사진): 필수
@@ -36,7 +36,7 @@ description: 카카오 로그인 인증 — OAuth 2.0, 첫 로그인 시 자동 
 
 `.env.local`:
 ```env
-NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_URL=http://localhost:3001
 NEXTAUTH_SECRET=your-random-secret-32chars   # openssl rand -base64 32
 
 KAKAO_CLIENT_ID=your_rest_api_key
@@ -570,7 +570,7 @@ export async function GET() {
 `.env.local`:
 ```env
 # NextAuth
-NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_URL=http://localhost:3001
 NEXTAUTH_SECRET=                    # openssl rand -base64 32
 
 # 카카오 OAuth
@@ -580,7 +580,7 @@ KAKAO_CLIENT_SECRET=                # Kakao Developers Client Secret
 
 `.env.production` (배포 시):
 ```env
-NEXTAUTH_URL=https://your-domain.com
+NEXTAUTH_URL=https://transformer.your-domain.com
 NEXTAUTH_SECRET=                    # 프로덕션용 별도 시크릿
 KAKAO_CLIENT_ID=
 KAKAO_CLIENT_SECRET=

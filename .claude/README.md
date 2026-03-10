@@ -46,7 +46,7 @@ src/
 
 억지스러운 마케팅 용어 대신, **기술적 성취가 가져온 실질적 서비스 변화**를 기술합니다.
 
-> 콘텐츠는 `jione-portfolio/src/data/resume.ts` → `Project` 필드에서 관리됩니다.
+> 콘텐츠는 `c:/work/jione-portfolio/src/data/resume.ts` → `Project` 필드에서 관리됩니다.
 
 ```typescript
 resume.Project = {
@@ -75,7 +75,7 @@ resume.Project = {
 **`/content-setup` 실행 조건:**
 
 ```
-✅ jione-portfolio/src/data/resume.ts 파일이 존재해야 합니다.
+✅ c:/work/jione-portfolio/src/data/resume.ts 파일이 존재해야 합니다.
    → 파일이 없으면 작업을 즉시 중단하고 안내 메시지를 출력합니다.
    → 파일이 있으면 구조를 확인하고 누락 섹션만 보완합니다. (덮어쓰기 없음)
 ```

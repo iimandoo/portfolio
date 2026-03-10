@@ -434,9 +434,13 @@ export type ProjectCase   = (typeof resume.Project.cases)[number];
 ```typescript
 import { NextRequest, NextResponse } from 'next/server';
 import { generateResumeTsContent } from '@/lib/pdf/resume-generator';
+import { requireSession } from '@/lib/auth/require-session';
 import type { ResumeDto } from '@/types/resume-dto';
 
 export async function POST(req: NextRequest) {
+  const { response } = await requireSession();
+  if (response) return response;
+
   const data: ResumeDto = await req.json();
   const content = generateResumeTsContent(data);
 

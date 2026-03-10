@@ -254,7 +254,7 @@ describe('resume.ts 파일 생성', () => {
 6. "AI 보완" 클릭 → 보라색 배경 필드 표시 확인
 7. 필드 직접 편집 → 값 반영 확인
 8. "resume.ts 다운로드" → 파일 정상 다운로드 확인
-9. 다운로드된 파일 → jione-portfolio에 복사 후 빌드 성공 확인
+9. 다운로드된 파일 → jione-portfolio(포트폴리오 프로젝트)에 복사 후 빌드 성공 확인
 ```
 
 ---
@@ -278,7 +278,7 @@ npx jest --coverage
 
 - [ ] TC-01 파싱 정확도: 핵심 필드 80% 이상 추출
 - [ ] TC-02 부족 감지: 모든 조건 정확히 감지
-- [ ] TC-03 resume.ts 출력: 빌드 오류 없이 jione-portfolio에서 사용 가능
+- [ ] TC-03 resume.ts 출력: 빌드 오류 없이 jione-portfolio(포트폴리오 프로젝트)에서 사용 가능
 - [ ] TC-04 엣지 케이스 7개 전부 처리
 - [ ] TC-05 E2E: 한글 PDF 샘플 1건 완전 통과
 - [ ] Gemini API 실패 시 graceful fallback 동작 확인

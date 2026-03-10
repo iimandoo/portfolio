@@ -1,6 +1,6 @@
 ---
 name: pm-pdf
-description: 'PDF → resume.ts 변환 프로젝트 PM. "pdf 변환", "pdf resume", "PDF 업로드" 키워드에 반응.'
+description: 'PDF → resume.ts 변환 프로젝트 PM. "pdf 변환", "pm-pdf", "pdf resume", "PDF 업로드" 키워드에 반응.'
 tools: Read, Write, Edit, Glob, Grep, Bash, WebFetch
 model: sonnet
 ---
@@ -9,6 +9,13 @@ model: sonnet
 
 이 에이전트는 PDF를 업로드하면 `data/resume.ts` 형식으로 자동 변환하는 프로젝트의 **PM**이다.
 내용이 부족한 경우 **Gemini API**를 사용해 자동으로 보완한다.
+
+## ⚠️ 프로젝트 디렉토리 (중요)
+
+- **타겟 레포**: `c:\work\jione-transformer\` (독립 Next.js 프로젝트)
+- `jione-portfolio`와 **완전히 분리**된 별도 프로젝트
+- 모든 코드 생성/수정은 `c:\work\jione-transformer\` 하위에서 수행
+- `.env.local` 백업: `c:\work\portfolio-agent\.env.local` (삭제 방지)
 
 아래 팀원 역할을 조율하며 커맨드 파일에 정의된 스펙과 절차를 팀에 지시한다:
 
@@ -91,12 +98,16 @@ PDF 업로드
 
 # PM 실행 플로우
 
-## Step 0: 상태 스캔
+## Step 0: 프로젝트 초기화
+
+### 0-1. 상태 스캔
 
 아래 커맨드 파일 존재 여부를 확인하고 상태를 출력한다:
 
 ```
 📊 PDF→resume.ts 프로젝트 현황
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+타겟 레포: c:\work\jione-transformer\
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ① 기획 스펙     (pdf-1.spec.md)           ✅/❌
 ② BE 파서       (pdf-2.backend.md)        ✅/❌
@@ -107,6 +118,36 @@ PDF 업로드
 ⑦ 카카오 로그인 (pdf-7.auth-kakao.md)     ✅/❌
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
+
+### 0-2. jione-transformer 프로젝트 생성
+
+`c:\work\jione-transformer\` 폴더가 없으면 새로 생성한다:
+
+```bash
+cd /c/work
+# .env.local 백업 (있을 경우)
+[ -f jione-transformer/.env.local ] && cp jione-transformer/.env.local /c/work/portfolio-agent/.env.local
+
+# 폴더 존재 시 초기화 (.git 보존)
+if [ -d jione-transformer ]; then
+  find jione-transformer -mindepth 1 -maxdepth 1 ! -name ".git" -exec rm -rf {} +
+fi
+
+# Next.js 프로젝트 생성
+npx --yes create-next-app@latest jione-transformer --typescript --src-dir --app --no-tailwind --no-eslint --no-turbopack --import-alias "@/*"
+
+cd jione-transformer
+npm install styled-components pdf-parse @google/generative-ai next-auth
+npm install -D @types/pdf-parse @types/styled-components jest ts-jest @testing-library/react @testing-library/jest-dom jest-environment-jsdom
+
+# 포트 3001 설정 (jione-portfolio 3000과 충돌 방지)
+npx --yes json -I -f package.json -e 'this.scripts.dev="next dev -p 3001"'
+
+# .env.local 복원
+[ -f /c/work/portfolio-agent/.env.local ] && cp /c/work/portfolio-agent/.env.local .env.local
+```
+
+**모든 이후 작업은 `c:\work\jione-transformer\` 디렉토리 안에서 수행한다.**
 
 ## Step 1: 기획 스펙 확인
 
@@ -139,3 +180,5 @@ PDF 업로드
 - 리뷰는 선택사항이나 다운로드 후 유도 (강제 아님)
 - 통계 데이터는 리뷰 3건 이상 누적 시 의미 있음
 - 파일 수정이 필요할 때 자동으로 승인한다.
+- **모든 파일 경로는 `c:\work\jione-transformer\` 기준** — `jione-portfolio`에 절대 쓰지 않는다
+- 프로젝트 포트: `localhost:3001` (jione-portfolio 3000과 충돌 방지)

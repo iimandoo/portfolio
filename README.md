@@ -99,24 +99,26 @@ cursor-agent/
 │   └── README.md               # 커맨드 시스템 상세 설명
 ├── data/
 │   └── resume.ts               # 샘플 콘텐츠 데이터
-└── jione-portfolio/            # 커맨드 실행 후 생성되는 포트폴리오 결과물
-    └── src/
-        ├── app/
-        │   └── page.tsx        # 단일 페이지 메인
-        ├── components/
-        │   └── sections/       # hero / about / Project / contact
-        ├── data/
-        │   └── resume.ts       # 콘텐츠 단일 소스 (이것만 수정)
-        └── styles/
-            ├── theme.ts        # 테마 토큰 (토스/카카오 스타일 포함)
-            └── provider.tsx    # ThemeProvider
+
+# jione-portfolio 는 c:/work/jione-portfolio/ (sibling directory) 에 생성됩니다.
+# c:/work/jione-portfolio/
+#     └── src/
+#         ├── app/
+#         │   └── page.tsx        # 단일 페이지 메인
+#         ├── components/
+#         │   └── sections/       # hero / about / Project / contact
+#         ├── data/
+#         │   └── resume.ts       # 콘텐츠 단일 소스 (이것만 수정)
+#         └── styles/
+#             ├── theme.ts        # 테마 토큰 (토스/카카오 스타일 포함)
+#             └── provider.tsx    # ThemeProvider
 ```
 
 ---
 
 ## 콘텐츠 수정 방법
 
-포트폴리오 내용은 `jione-portfolio/src/data/resume.ts` 하나만 수정합니다.
+포트폴리오 내용은 `c:/work/jione-portfolio/src/data/resume.ts` 하나만 수정합니다.
 
 ```typescript
 export const resume = {

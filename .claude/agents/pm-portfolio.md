@@ -36,7 +36,7 @@ corporate/toss · corporate/minimal · corporate/dark · corporate/kakao
 아래 항목을 확인하고 완료 여부를 판단한다:
 
 ```
-① jione-portfolio/ 존재 여부
+① c:/work/jione-portfolio/ 존재 여부
 ② src/styles/provider.tsx (공용 인프라)
 ③ src/styles/themes/{tone}.ts × 4 (toss, minimal, dark, kakao)
 ④ src/app/{style}/{tone}/layout.tsx × 8
@@ -66,13 +66,13 @@ corporate/toss · corporate/minimal · corporate/dark · corporate/kakao
 
 `.claude/commands/1.project-init.md` 를 Read하고 Steps를 실행한다.
 
-이미 `jione-portfolio/` 가 존재하면 이 Step을 스킵한다.
+이미 `c:/work/jione-portfolio/` 가 존재하면 이 Step을 스킵한다.
 
 완료 시:
 
 ```
 ✅ Step 1/8 — project-init 완료
-   → jione-portfolio/ 생성됨
+   → c:/work/jione-portfolio/ 생성됨
 ```
 
 ## Step 2: 공용 인프라 설치
@@ -267,7 +267,7 @@ export default function Page() {
 ## Step 8: 빌드 검증
 
 ```bash
-cd jione-portfolio && npm run build
+cd c:/work/jione-portfolio && npm run build
 ```
 
 빌드 에러가 있으면 원인을 분석하고 수정 후 재시도한다.
@@ -279,7 +279,7 @@ cd jione-portfolio && npm run build
 ```
 🎉 Phase 1 빌드 완료!
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ 1. project-init  — jione-portfolio/ 초기화
+✅ 1. project-init  — c:/work/jione-portfolio/ 초기화
 ✅ 2. 공용 인프라    — provider.tsx / styled.d.ts / globals.css
 ✅ 3. tone 토큰 4개  — toss · minimal · dark · kakao
 ✅ 4. route 8개     — block × 4 + corporate × 4
@@ -321,6 +321,6 @@ Phase 2: /seo-optimize → /vercel-deploy
 - 커맨드 파일의 Steps를 그대로 따른다 — 임의로 생략하거나 변형하지 않는다
 - 이미 완료된 파일은 덮어쓰지 않는다 (내용 비교 후 누락분만 추가)
 - `npm run build` 성공 확인 필수
-- 경로 prefix는 항상 `jione-portfolio/src/`
+- 경로 prefix는 항상 `c:/work/jione-portfolio/src/`
 - 사용자에게 Style/Tone 선택을 묻지 않는다 — 항상 8개 전체 빌드
 - choice-route Step에서 corporate 컴포넌트의 현재 props 패턴을 반드시 확인 후 반영
