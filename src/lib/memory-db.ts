@@ -21,6 +21,10 @@ export const memoryDB = {
     logs
       .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
       .slice(0, limit),
+  clearLogs: () => {
+    logs = [];
+    nextId = 1;
+  },
   getStats: () => {
     const stats: Record<string, { count: number; lastVisit: Date }> = {};
     logs.forEach((log) => {
