@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# post-merge hook for Next.js
+# master/main 브랜치에 merge 발생 시 전체 테스트 자동 실행
+
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+if [ "$BRANCH" = "master" ] || [ "$BRANCH" = "main" ]; then
+    echo ""
+    echo "============================================"
+    echo "🔀 $BRANCH 브랜치 merge 감지!"
+    echo "🧪 Next.js 전체 테스트를 실행합니다..."
+    echo "============================================"
+    echo ""
+    
+    # 1. Lint 검사
+    echo "📋 1/4. Lint 검사..."
+    npm run lint
+    if [ $? -ne 0 ]; then
+        echo "❌ Lint 검사 실패!"
+        exit 1
+    fi
+    echo "✅ Lint 통과"
+    echo ""
+    
+    # 2. TypeScript 타입 체크
+    echo "📋 2/4. TypeScript 타입 체크..."
+    npx tsc --noEmit
+    if [ $? -ne 0 ]; then
+        echo "❌ TypeScript 타입 에러!"
+        exit 1
+    fi
+    echo "✅ 타입 체크 통과"
+    echo ""
+    
+    # 3. 테스트 실행
+    echo "📋 3/4. 테스트 실행..."
+    npm test -- --passWithNoTests
+    if [ $? -ne 0 ]; then
+        echo "❌ 테스트 실패!"
+        exit 1
+    fi
+    echo "✅ 테스트 통과"
+    echo ""
+    
+    # 4. 빌드 테스트
+    echo "📋 4/4. 빌드 테스트..."
+    npm run build
+    if [ $? -ne 0 ]; then
+        echo "❌ 빌드 실패!"
+        exit 1
+    fi
+    echo "✅ 빌드 성공"
+    echo ""
+    
+    echo "============================================"
+    echo "✅ 모든 검사 통과! 배포 가능합니다."
+    echo "============================================"
+fi
