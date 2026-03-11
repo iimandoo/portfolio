@@ -184,8 +184,8 @@ Gemini API를 호출하는 조건:
 |--------|------|
 | Frontend | Next.js, React, TypeScript, styled-components |
 | Backend | Next.js API Routes |
-| PDF 파싱 | `pdf-parse` npm 패키지 |
-| AI | Google Gemini API (`@google/generative-ai`) |
+| PDF 파싱 | `unpdf` (Node.js 서버 호환, 폴리필 불필요) |
+| AI | Google Gemini API (`@google/generative-ai`, model: `gemini-2.5-flash`) |
 | 인증 | NextAuth.js + 카카오 OAuth |
 | 파일 핸들링 | Next.js built-in (formData) |
 

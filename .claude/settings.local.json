@@ -59,7 +59,16 @@
       "Bash(npx --yes create-next-app@latest jione-transformer --typescript --src-dir --app --no-tailwind --no-eslint --no-turbopack --import-alias \"@/*\")",
       "Bash(npx --yes json -I -f package.json -e 'this.scripts.dev=\"\"next dev -p 3001\"\"')",
       "Bash(npx jest --testPathPattern=\"resume-generator|deficiency-detector|parser\")",
-      "Bash(npx jest)"
+      "Bash(npx jest)",
+      "Bash(find /c/work/jione-transformer -type f \\\\\\(-name *.pdf -o -name *debug* -o -name *test*.pdf \\\\\\))",
+      "Bash(find /c/work/jione-transformer -type f \\\\\\(-name *.json -o -name *.txt \\\\\\) -path */test* -o -path */sample* -o -path */fixture*)",
+      "Bash(npx jest:*)",
+      "Bash(npm run:*)",
+      "Bash(find /c/work/jione-agent -type f \\\\\\(-path */src/* -o -path */lib/* \\\\\\))",
+      "Bash(git -C /c/work/jione-portfolio status --short)",
+      "Bash(git -C /c/work/jione-portfolio log --oneline -10)",
+      "Bash(git -C /c/work/jione-portfolio show --stat c17fcba)",
+      "Bash(git -C /c/work/jione-portfolio show --stat 69a3cac)"
     ]
   }
 }

@@ -40,9 +40,9 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
 export const geminiModel = genAI.getGenerativeModel({
-  model: 'gemini-1.5-flash',
+  model: 'gemini-2.5-flash',
   generationConfig: {
-    maxOutputTokens: 1024,
+    maxOutputTokens: 4096,
     temperature: 0.4,       // 낮을수록 일관된 출력
   },
 });

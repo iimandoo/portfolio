@@ -5,6 +5,7 @@ description: PDF → resume.ts 변환 프론트엔드 개발 — PDF 업로드 U
 # FE 개발 — PDF 업로드 & 편집 UI
 
 선행: `pdf-2.backend.md` + `pdf-3.ai-enrich.md` API 완료 필수
+디자인: `pdf-8.design.md` — Deep Purple 톤 디자인 시스템, 컴포넌트 스타일 가이드 참조 필수
 
 ---
 

@@ -19,13 +19,14 @@ model: sonnet
 
 아래 팀원 역할을 조율하며 커맨드 파일에 정의된 스펙과 절차를 팀에 지시한다:
 
-| 역할      | 담당                                        |
-| --------- | ------------------------------------------- |
-| 기획자    | 요구사항 정의, UX 플로우, DTO 매핑 설계     |
-| FE 개발자 | PDF 업로드 UI, 미리보기, 편집 폼            |
-| BE 개발자 | PDF 파싱 API, 데이터 정규화, resume.ts 출력 |
-| AI 개발자 | Gemini API 연동, 내용 보완 프롬프트         |
-| QA        | 파싱 정확도 검증, 엣지 케이스 테스트        |
+| 역할       | 담당                                             |
+| ---------- | ------------------------------------------------ |
+| 기획자     | 요구사항 정의, UX 플로우, DTO 매핑 설계          |
+| 디자이너   | Deep Purple 톤 디자인 시스템, UI 컴포넌트 스타일링 |
+| FE 개발자  | PDF 업로드 UI, 미리보기, 편집 폼 (디자인 적용)    |
+| BE 개발자  | PDF 파싱 API, 데이터 정규화, resume.ts 출력      |
+| AI 개발자  | Gemini API 연동, 내용 보완 프롬프트              |
+| QA         | 파싱 정확도 검증, 엣지 케이스 테스트             |
 
 ---
 
@@ -87,7 +88,23 @@ PDF 업로드
                            └→ resume.ts 파일 다운로드
 ```
 
-**Gemini API 사용 조건 (내용 부족 판단 기준):**
+**AI-First 파싱 전략:**
+
+1. PDF 텍스트 추출 후 **Gemini API에 전체 텍스트 + ResumeDto 스키마를 전달** → JSON 직접 생성
+2. Gemini 모델: `gemini-2.5-flash`, `maxOutputTokens: 65536` (한국어 이력서 전체 출력 보장)
+3. JSON 응답 정제: `sanitizeJsonResponse()` (코드블록, trailing comma, URL 내 `//` 보존, 제어문자 이스케이프)
+4. JSON 파싱 실패 시 `tryParseJson()`으로 잘린 JSON 복구 (닫히지 않은 괄호 자동 닫기)
+5. 재시도: MAX_RETRIES=2, 경력+프로젝트 0개이면 불완전으로 거부
+6. Gemini 실패 시 → **regex fallback** (`mapPdfToResumeDto`)
+
+**regex fallback 핵심 기능:**
+
+- PDF 테이블 행 파싱: `"성 명 이지혜 경 력 20년"` → key-value 분리
+- 이름 추출: 구조화 패턴 우선 ("성 명 홍길동"), 문서 제목 스킵
+- 경력 서술 분리: 경력기술서 서술 텍스트를 `narrativeLines`로 분리
+- 키워드 DB 스킬 매칭: 전체 텍스트에서 알려진 기술 키워드 스캔
+
+**Gemini API 보완 (AI Enrich) 조건:**
 
 - `description`이 50자 미만이거나 비어 있는 경우
 - `bio`가 없거나 100자 미만인 경우
@@ -137,11 +154,23 @@ fi
 npx --yes create-next-app@latest jione-transformer --typescript --src-dir --app --no-tailwind --no-eslint --no-turbopack --import-alias "@/*"
 
 cd jione-transformer
-npm install styled-components pdf-parse @google/generative-ai next-auth
-npm install -D @types/pdf-parse @types/styled-components jest ts-jest @testing-library/react @testing-library/jest-dom jest-environment-jsdom
+npm install styled-components unpdf @google/generative-ai next-auth
+npm install -D @types/styled-components jest ts-jest @testing-library/react @testing-library/jest-dom jest-environment-jsdom
 
 # 포트 3001 설정 (jione-portfolio 3000과 충돌 방지)
 npx --yes json -I -f package.json -e 'this.scripts.dev="next dev -p 3001"'
+
+# styled-components SSR 설정 (하이드레이션 에러 방지)
+npx --yes json -I -f next.config.ts 2>/dev/null || true
+cat > next.config.ts << 'NEXTCFG'
+import type { NextConfig } from "next";
+const nextConfig: NextConfig = {
+  compiler: {
+    styledComponents: true,
+  },
+};
+export default nextConfig;
+NEXTCFG
 
 # .env.local 복원
 [ -f /c/work/portfolio-agent/.env.local ] && cp /c/work/portfolio-agent/.env.local .env.local
@@ -157,16 +186,17 @@ npx --yes json -I -f package.json -e 'this.scripts.dev="next dev -p 3001"'
 
 사용자가 지정한 역할의 커맨드를 Read하고 해당 작업을 실행한다:
 
-| 사용자 지시                           | 실행 커맨드                                    |
-| ------------------------------------- | ---------------------------------------------- |
-| "기획" / "스펙"                       | `pdf-1.spec.md`                                |
-| "BE" / "백엔드" / "파서"              | `pdf-2.backend.md`                             |
-| "AI" / "Gemini" / "보완"              | `pdf-3.ai-enrich.md`                           |
-| "FE" / "프론트" / "UI"                | `pdf-4.frontend.md`                            |
-| "QA" / "테스트"                       | `pdf-5.qa.md`                                  |
-| "히스토리" / "리뷰" / "통계" / "성능" | `pdf-6.history-review.md`                      |
-| "로그인" / "인증" / "카카오" / "회원" | `pdf-7.auth-kakao.md`                          |
-| "전체"                                | **7 → 1 → 2 → 3 → 4 → 5 → 6** 순서 (인증 먼저) |
+| 사용자 지시                                | 실행 커맨드                                          |
+| ------------------------------------------ | ---------------------------------------------------- |
+| "기획" / "스펙"                            | `pdf-1.spec.md`                                      |
+| "BE" / "백엔드" / "파서"                   | `pdf-2.backend.md`                                   |
+| "AI" / "Gemini" / "보완"                   | `pdf-3.ai-enrich.md`                                 |
+| "FE" / "프론트" / "UI"                     | `pdf-4.frontend.md`                                  |
+| "QA" / "테스트"                            | `pdf-5.qa.md`                                        |
+| "히스토리" / "리뷰" / "통계" / "성능"      | `pdf-6.history-review.md`                            |
+| "로그인" / "인증" / "카카오" / "회원"      | `pdf-7.auth-kakao.md`                                |
+| "디자인" / "스타일" / "톤앤매너" / "UI/UX" | `pdf-8.design.md`                                    |
+| "전체"                                     | **7 → 1 → 8 → 2 → 3 → 4 → 5 → 6** 순서 (인증→디자인 먼저) |
 
 ---
 

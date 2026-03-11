@@ -1,4 +1,7 @@
 {
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
   "permissions": {
     "allow": [
       "Read",
@@ -17,7 +20,9 @@
       "Bash(git show*)",
       "Bash(npm list*)",
       "Bash(npm outdated*)",
-      "Bash(npx tsc --noEmit*)"
+      "Bash(npx tsc --noEmit*)",
+      "Bash(mkdir -p /c/work/jione-transformer/src/styles/themes)",
+      "Bash(mkdir -p /c/work/jione-transformer/src/components/ui)"
     ],
     "deny": [
       "Bash(rm -rf /)",
@@ -26,9 +31,9 @@
       "Write(.env)",
       "Write(.env.local)",
       "Write(*.pem)"
+    ],
+    "additionalDirectories": [
+      "c:\\work\\jione-transformer\\src\\lib\\pdf"
     ]
-  },
-  "env": {
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   }
 }
